@@ -1,0 +1,6 @@
+name: "pika"
+slug: "pika"
+description: "Plugin pika - auto-generated skeleton"
+provider_type: "beautifulsoup"
+opportunity_types: ["aggregator"]
+version: "0.1-skeleton"

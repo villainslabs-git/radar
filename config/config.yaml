@@ -1,0 +1,233 @@
+# config.yaml - Radar v3.0 - Opportunity Intelligence Engine
+# Fuente única de verdad. Gobernado TODO, incluyendo plugins.
+
+project:
+  name: "Radar - Opportunity Intelligence Engine"
+  version: "3.0"
+  timezone: "America/Argentina/Buenos_Aires"
+  db_path: "data/radar.db"
+  log_level: "INFO"
+  raw_html_storage: "data/raw/"
+
+logging:
+  level: "INFO"
+  dir: "logs"
+  files:
+    monitor: "monitor.log"
+    discover: "discover.log"
+    scheduler: "scheduler.log"
+    doctor: "doctor.log"
+    db: "db.log"
+    core: "core.log"
+    provider: "provider.log"
+    notifications: "notifications.log"
+  max_bytes: 5242880
+  backup_count: 3
+
+scheduler:
+  enabled: true
+  timezone: "America/Argentina/Buenos_Aires"
+  max_workers: 5
+  job_defaults:
+    coalesce: true
+    max_instances: 1
+    misfire_grace_time: 3600
+  jobs:
+    discover:
+      enabled: true
+      cron: "0 3 * * 0"
+      retries: 2
+      retry_delay_seconds: 60
+      timeout_seconds: 600
+    monitor:
+      enabled: true
+      cron: "0 */12 * * *"
+      retries: 2
+      retry_delay_seconds: 30
+      timeout_seconds: 900
+      batch_size: 25
+    notify:
+      enabled: true
+      cron: "0 9 * * *"
+      retries: 1
+      retry_delay_seconds: 30
+      timeout_seconds: 300
+    cleanup:
+      enabled: true
+      cron: "0 2 * * *"
+      retries: 1
+      retry_delay_seconds: 60
+      timeout_seconds: 300
+    healthcheck:
+      enabled: true
+      cron: "0 * * * *"
+      retries: 0
+      timeout_seconds: 120
+
+scan:
+  monitoring: # Job 2 - Vigilante (solo fuentes conocidas)
+    enabled: true
+    cron: "0 */12 * * *"
+    batch_size: 25
+    timeout_seconds: 45
+    retries: 2
+    use_playwright_for: ["official_page", "festival_page", "magazine"]
+    headers:
+      User-Agent: "Radar/3.0 Opportunity Intelligence (+https://github.com/radar)"
+  discovery: # Job 1 - Explorador (busca nuevas orgs) - semanal
+    enabled: true
+    cron: "0 3 * * 0"
+    max_new_sources_per_run: 30
+    max_depth: 1
+    keywords_must_contain_any:
+      - "open call"
+      - "convocatoria"
+      - "festival"
+      - "grant"
+      - "residency"
+      - "competition"
+      - "AI film"
+      - "film festival 2026"
+      - "video award"
+      - "beta program"
+      - "accelerator"
+    seeds:
+      - https://www.itsnicethat.com/news
+      - https://www.creativeboom.com/inspiration/
+      - https://runwayml.com/blog
+      - https://posterheroes.org
+      - https://www.videomaker.com/news/
+      - https://www.reddit.com/r/aifilm/top/?t=week
+      - https://filmmakers.eu/festivals
+
+# Plugins - Gobernado por config (activar/desactivar sin tocar código)
+plugins:
+  runway:
+    enabled: true
+    schedule: "daily"
+    priority: 10
+    provider: "playwright"
+    opportunity_types: ["contest", "grant", "beta", "festival"]
+  posterheroes:
+    enabled: true
+    schedule: "daily"
+    priority: 10
+    provider: "beautifulsoup"
+    opportunity_types: ["contest", "festival"]
+  adobe:
+    enabled: true
+    schedule: "daily"
+    priority: 9
+    provider: "beautifulsoup"
+    opportunity_types: ["residency", "grant", "beta"]
+  leonardo:
+    enabled: false
+    schedule: "weekly"
+    priority: 7
+    provider: "beautifulsoup"
+    opportunity_types: ["contest", "beta"]
+  openai:
+    enabled: false
+    schedule: "weekly"
+    priority: 7
+    provider: "api"
+    opportunity_types: ["grant", "residency", "beta", "accelerator"]
+  itsnicethat:
+    enabled: true
+    schedule: "daily"
+    priority: 5
+    provider: "beautifulsoup"
+    opportunity_types: ["aggregator"]
+  filmfreeway:
+    enabled: false
+    schedule: "weekly"
+    priority: 4
+    provider: "playwright"
+    opportunity_types: ["aggregator"]
+  ai-film-festival:
+    enabled: true
+    schedule: "daily"
+    priority: 8
+    provider: "beautifulsoup"
+    opportunity_types: ["festival", "contest"]
+  pika:
+    enabled: false
+    schedule: "weekly"
+    priority: 6
+    provider: "beautifulsoup"
+    opportunity_types: ["contest", "beta"]
+
+notifications:
+  enabled: true
+  min_score_for_new: 0.65 # ignorado hasta que tengamos 300 opps (scoring postergado)
+  deadline_days: [30, 15, 7, 3, 1]
+  digest_time: "09:00"
+  digest_timezone: "America/Argentina/Buenos_Aires"
+  channels: ["db", "log"]
+  urgent_priority_for_watchlist: true
+
+# Para scoring futuro - NO implementar todavía (acumular 300 oportunidades reales primero)
+scoring:
+  enabled: false # <--- Senior advice: deshabilitado hasta tener data real
+  note: "No implementar hasta juntar 300 oportunidades y ver cuáles se presentan. Evitar heurística prematura."
+  weights:
+    relevance: 0.5
+    prize: 0.3
+    urgency: 0.2
+  favorite_orgs: ["runway", "adobe", "posterheroes", "ai-film-festival"]
+  bonus_keywords: ["generative ai", "video ai", "argentina", "latam", "no fee", "gratuita"]
+
+deduplication:
+  fingerprint_version: "v3"
+  title_similarity_threshold: 0.85
+  deadline_delta_days: 15
+  auto_merge_if_fingerprint_exact: true
+
+watchlist:
+  auto_add_if_score_above: 0.9 # deshabilitado hasta scoring.enabled=true
+  default_reminders: [30, 15, 7, 3, 1]
+  remind_for_statuses: ["interested", "researching", "applying"]
+
+countries: ["Argentina", "LATAM", "Global", "No restriction", "USA", "Europe"]
+languages: ["Español", "Inglés", "Portugués"]
+categories: ["AI", "Video", "Motion", "Publicidad", "Cine", "Arte Digital", "Foto", "Música", "General"]
+
+opportunity_types: # Motor genérico - oportunidad no solo es concurso
+  - contest
+  - grant
+  - residency
+  - fellowship
+  - accelerator
+  - hackathon
+  - beta
+  - festival
+  - call_for_artists
+  - creative_tender
+  - challenge
+
+organizations:
+  min_opportunities_to_be_org: 1
+  auto_create_from_source_domain: true
+
+llm:
+  provider: "ollama"
+  model: "qwen2.5:7b"
+  base_url: "http://localhost:11434"
+  on_demand_only: true
+  timeout_seconds: 60
+  tasks:
+    summarize_bases:
+      prompt_template: "prompt_templates/summarize_bases.txt"
+      max_tokens: 800
+
+environments:
+  dev:
+    scan:
+      monitoring:
+        batch_size: 5
+      discovery:
+        enabled: false
+  prod:
+    scan:
+      monitoring:
+        batch_size: 25

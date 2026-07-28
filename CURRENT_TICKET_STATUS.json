@@ -1,0 +1,48 @@
+{
+  "ticket_id": "TICKET_010",
+  "title": "Primer Provider Real - Posterheroes - Prueba de Arquitectura - APROBADO",
+  "status": "approved",
+  "timestamp": "2026-07-27T06:30:00Z",
+  "worker_agent": "Principal Agent (Tickets 001-010)",
+  "orchestrator_expected": "HERMES AGENT",
+  "verdict": "APROBADO con 2 observaciones menores corregidas, arquitectura validada con caso real",
+  "approved_observations": {
+    "fix1_economic_value": "Corregido bug updated=1 por 2500.0 -> 2500 falso. Ahora economic_value siempre float y HistoryTracker compara float con tolerancia 0.01. 2500.0 vs 2500 no es cambio, evita ensuciar History/Notifications/Metrics",
+    "fix2_fallback_urls_generico": "Antes hardcodeado competition/ -> www -> root, ahora Provider base con candidate_urls() -> List[str] y fetch_first_success() genérico. Cualquier plugin futuro puede definir [competitions, open-call, calls, root, archive] sin tocar base",
+    "fix3_fixture_html_test": "Agregado test automático con fixture HTML tests/plugins/posterheroes/posterheroes_2026.html 47KB + test_extract() con asserts title, deadline, awards, description, hace scraper robusto contra cambio HTML, cambio parser, refactor"
+  },
+  "validations": {
+    "plugin_interface": "Plugin implementa misma Provider interface, no hay lógica if slug == posterheroes en core, PluginLoader carga dinámicamente",
+    "pipeline_completo": "Plugin -> Fetch -> Extract -> Normalize -> Fingerprint -> History -> Database -> Notification -> Logs -> Metrics",
+    "oportunidad_persistida": "DB id 5 title Posterheroes 15 - Still Human deadline 31st July 2026 awards €2,500/€1,500 link https://www.posterheroes.org/ fp 6f180fb467666424",
+    "notificacion_generada": "new_opportunity 1 notificación, idempotencia DB COUNT 1",
+    "deduplicacion": "2da vez new 0 DB count 1 (no duplicados), alternate_links idempotente, history no duplicado",
+    "logs": "monitor.log contiene [MONITOR] Start, Fetching 3 URLs, Fetched OK 47824 bytes, Extracted 1, [NEW] Inserted opportunity 5, [MONITOR] Completed new=1",
+    "sin_excepciones_core": "0 if slug == posterheroes en core/, 0 from plugins.posterheroes import, todo dinámico via PluginLoader runtime, funciona igual que cualquier plugin futuro"
+  },
+  "tests": {
+    "total": "69 tests OK (17 fingerprint + 7 loader + 3 hardening + 9 runtime + 6 monitoring + 7 history + 7 notification + 6 scheduler + 7 posterheroes fixture)",
+    "fingerprint": "17 OK",
+    "plugin_loader": "7 OK",
+    "hardening": "3 OK",
+    "runtime": "9 OK",
+    "monitoring": "6 OK",
+    "history": "7 OK",
+    "notification": "7 OK",
+    "scheduler": "6 OK",
+    "posterheroes_fixture": "7 OK - fixture exists 47KB, title, deadline, awards float, description, normalize valid, candidate_urls genérico, economic_value float no false updates"
+  },
+  "doctor": "OK (WARN playwright optional)",
+  "real_opportunity": {
+    "title": "Posterheroes 15 - Still Human",
+    "deadline": "31st July 2026",
+    "awards": "Awards: € 2,500, € 1,500",
+    "economic_value": 2500.0,
+    "link": "https://www.posterheroes.org/",
+    "fingerprint": "6f180fb467666424"
+  },
+  "phase": "Infraestructura principal completa ✅ (Tickets 001-009) + Primer provider real validado ✅ (Ticket 010) - Núcleo cerrado, arquitectura validada con caso real sin excepciones en core. A partir de ahora mayor ROI: incorporar más providers reales, endurecer cada parser con tests fixtures, acumular datos reales, activar scoring cuando volumen suficiente.",
+  "next_phase": "Fase 2 - Providers Reales - Prueba de arquitectura superada, ahora ampliar cobertura fuentes y calidad extracción: Runway Real (playwright) cross-source, Adobe Real, AI Film Festival, It's Nice That, Integration Test 50-100 opps reales",
+  "next_ticket": "TICKET 011 - Scraper Runway Real (playwright) - Validación cross-source",
+  "stop_core": true
+}

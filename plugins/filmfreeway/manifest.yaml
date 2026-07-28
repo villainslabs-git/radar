@@ -1,0 +1,6 @@
+name: "filmfreeway"
+slug: "filmfreeway"
+description: "Plugin filmfreeway - auto-generated skeleton"
+provider_type: "beautifulsoup"
+opportunity_types: ["aggregator"]
+version: "0.1-skeleton"

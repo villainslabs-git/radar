@@ -1,0 +1,9 @@
+name: "OpenAI"
+slug: "openai"
+description: "Sora, Grants, Residency, API Beta"
+provider_type: "api"  # futuro: API provider
+opportunity_types: ["grant", "residency", "beta", "accelerator"]
+version: "1.0"
+config:
+  priority: 7
+  enabled: false

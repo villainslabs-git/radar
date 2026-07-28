@@ -1,0 +1,6 @@
+name: "ai-film-festival"
+slug: "ai-film-festival"
+description: "Plugin ai-film-festival - auto-generated skeleton"
+provider_type: "beautifulsoup"
+opportunity_types: ["aggregator"]
+version: "0.1-skeleton"

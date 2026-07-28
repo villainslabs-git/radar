@@ -1,0 +1,64 @@
+# Seed de fuentes - motor agnóstico, cada source apunta a una org
+sources:
+  - org_slug: "runway"
+    url: "https://runwayml.com/ai-film-festival"
+    name: "Runway AI Film Festival Official"
+    type: "official_page"
+    priority: 10
+    status: "active"
+
+  - org_slug: "runway"
+    url: "https://runwayml.com/blog"
+    name: "Runway Blog - Grants & Programs"
+    type: "official_page"
+    priority: 8
+    status: "active"
+
+  - org_slug: "posterheroes"
+    url: "https://posterheroes.org/competition/"
+    name: "Posterheroes Competition Official"
+    type: "festival_page"
+    priority: 10
+    status: "active"
+
+  - org_slug: "adobe"
+    url: "https://www.adobe.com/about-adobe/creative-residency.html"
+    name: "Adobe Creative Residency Official"
+    type: "official_page"
+    priority: 9
+    status: "active"
+
+  - org_slug: "leonardo"
+    url: "https://leonardo.ai/news"
+    name: "Leonardo AI News & Challenges"
+    type: "official_page"
+    priority: 7
+    status: "active"
+
+  - org_slug: "openai"
+    url: "https://openai.com/blog"
+    name: "OpenAI Blog - Grants & Betas"
+    type: "official_page"
+    priority: 7
+    status: "active"
+
+  - org_slug: "itsnicethat"
+    url: "https://www.itsnicethat.com/news"
+    name: "ITS NICE THAT - News Aggregator"
+    type: "magazine"
+    priority: 5
+    status: "active"
+
+  - org_slug: "filmfreeway"
+    url: "https://filmfreeway.com/festivals"
+    name: "FilmFreeway Festivals Aggregator"
+    type: "aggregator"
+    priority: 4
+    status: "active"
+
+  - org_slug: "ai-film-festival"
+    url: "https://aifilmfest.com"
+    name: "AI Film Festival Official"
+    type: "festival_page"
+    priority: 8
+    status: "active"

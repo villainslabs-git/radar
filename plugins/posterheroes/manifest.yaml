@@ -1,0 +1,12 @@
+name: "Posterheroes"
+slug: "posterheroes"
+description: "Social communication poster contest"
+provider_type: "beautifulsoup"
+opportunity_types: ["contest", "festival"]
+version: "1.0"
+maintainer: "radar"
+sources:
+  - "https://posterheroes.org/competition/"
+config:
+  requires_js: false
+  priority: 10

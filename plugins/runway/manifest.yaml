@@ -1,0 +1,13 @@
+name: "Runway"
+slug: "runway"
+description: "AI video generation - Film Festival, Grants, Beta Gen-4"
+provider_type: "playwright"  # requiere JS
+opportunity_types: ["contest", "grant", "beta", "festival"]
+version: "1.0"
+maintainer: "radar"
+sources:
+  - "https://runwayml.com/ai-film-festival"
+  - "https://runwayml.com/blog"
+config:
+  requires_js: true
+  priority: 10

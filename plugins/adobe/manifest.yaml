@@ -1,0 +1,8 @@
+name: "Adobe"
+slug: "adobe"
+description: "Creative Residency, Grants, Beta programs"
+provider_type: "beautifulsoup"
+opportunity_types: ["residency", "grant", "beta", "fellowship"]
+version: "1.0"
+config:
+  priority: 9

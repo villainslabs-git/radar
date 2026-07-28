@@ -1,0 +1,6 @@
+name: "itsnicethat"
+slug: "itsnicethat"
+description: "Plugin itsnicethat - auto-generated skeleton"
+provider_type: "beautifulsoup"
+opportunity_types: ["aggregator"]
+version: "0.1-skeleton"

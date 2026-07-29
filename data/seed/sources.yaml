@@ -28,18 +28,11 @@ sources:
     priority: 9
     status: "active"
 
-  - org_slug: "leonardo"
-    url: "https://leonardo.ai/news"
-    name: "Leonardo AI News & Challenges"
+  - org_slug: "adobe"
+    url: "https://blog.adobe.com/en/topics/creative-residency.html"
+    name: "Adobe Creative Residency Blog"
     type: "official_page"
-    priority: 7
-    status: "active"
-
-  - org_slug: "openai"
-    url: "https://openai.com/blog"
-    name: "OpenAI Blog - Grants & Betas"
-    type: "official_page"
-    priority: 7
+    priority: 8
     status: "active"
 
   - org_slug: "itsnicethat"
@@ -49,11 +42,25 @@ sources:
     priority: 5
     status: "active"
 
-  - org_slug: "filmfreeway"
-    url: "https://filmfreeway.com/festivals"
-    name: "FilmFreeway Festivals Aggregator"
-    type: "aggregator"
+  - org_slug: "itsnicethat"
+    url: "https://www.itsnicethat.com/articles"
+    name: "ITS NICE THAT - Articles"
+    type: "magazine"
     priority: 4
+    status: "active"
+
+  - org_slug: "itsnicethat"
+    url: "https://www.itsnicethat.com/features"
+    name: "ITS NICE THAT - Features"
+    type: "magazine"
+    priority: 4
+    status: "active"
+
+  - org_slug: "itsnicethat"
+    url: "https://www.itsnicethat.com/search/?q=competition"
+    name: "ITS NICE THAT - Search Competition"
+    type: "magazine"
+    priority: 3
     status: "active"
 
   - org_slug: "ai-film-festival"
@@ -61,4 +68,11 @@ sources:
     name: "AI Film Festival Official"
     type: "festival_page"
     priority: 8
+    status: "active"
+
+  - org_slug: "ai-film-festival"
+    url: "https://aiff.runwayml.com/"
+    name: "Runway AIF Official Subdomain"
+    type: "festival_page"
+    priority: 9
     status: "active"

@@ -10,33 +10,27 @@ class ItsNiceThatProvider(Provider):
         return "beautifulsoup"
 
     def candidate_urls(self, url: str = None) -> List[str]:
-        return ["https://www.itsnicethat.com/news"]
+        urls = ["https://www.itsnicethat.com/news"]
+        if url and url not in urls:
+            urls.insert(0, url)
+        return urls
 
     def fetch(self, url: str) -> FetchResult:
-        try:
-            r = httpx.get(url, timeout=20, headers={"User-Agent": "Radar/3.0"})
-            return FetchResult(
-                success=r.status_code == 200,
-                content=r.text,
-                content_type="html",
-                status_code=r.status_code,
-                url=url,
-                provider=self.provider_type
-            )
-        except Exception as e:
-            return FetchResult(success=False, content=None, content_type="html", url=url, provider=self.provider_type, error=str(e))
+        return self.fetch_first_success(url)
 
     def extract(self, fr: FetchResult) -> List[RawOpportunity]:
         if not fr.success or not fr.content: return []
         soup = BeautifulSoup(fr.content, "html.parser")
         opportunities = []
 
-        # It's Nice That suele tener artículos con enlaces a concursos
-        # Buscamos artículos que mencionen 'competition', 'open call', 'award'
         articles = soup.find_all("article")
         for art in articles:
             text = art.get_text(" ", strip=True).lower()
-            keywords = ["competition", "open call", "award", "prize"]
+            keywords = [
+                "competition", "open call", "award", "prize", "funding", 
+                "grant", "residency", "fellowship", "opportunity", "submit", 
+                "scholarship", "bursary", "commission"
+            ]
             if any(re.search(rf"\b{kw}s?\b", text) for kw in keywords):
                 title_elem = art.find(["h1", "h2", "h3", "h4"])
                 link_elem = art.find("a")
@@ -57,7 +51,6 @@ class ItsNiceThatProvider(Provider):
         return opportunities
 
     def normalize(self, raw: RawOpportunity) -> NormalizedOpportunity:
-        # Intentar resolver la organización real por el dominio
         target_org = self.organization_slug
         url = raw.url.lower()
         if "runwayml.com" in url:

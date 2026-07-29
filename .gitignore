@@ -33,3 +33,6 @@ Thumbs.db
 
 # LLM models (local)
 models/
+
+# Virtual Environments
+venv_radar/

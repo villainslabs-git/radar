@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "radar"
+version = "0.1.0"
+
+[tool.setuptools]
+packages = [
+    "core",
+    "cli",
+    "plugins",
+    "scrapers",
+    "jobs",
+    "scripts"
+]

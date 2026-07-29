@@ -9,3 +9,15 @@
 - Migrado AI Film Festival a Playwright.
 - Añadida resolución de organización a Its Nice That.
 - Creados scripts de utilidad y validación.
+
+Final validation:
+
+python scripts/validate_ticket_013.py
+RESULTADO: ÉXITO
+
+python scripts/simulate_ticket_013.py
+
+14 sources processed
+6 opportunities created
+0 errors
+0 duplicates
